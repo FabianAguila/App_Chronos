@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar></ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="alumno">
+    <ion-card>
+      <h2>Datos del alumno</h2>
+      <h3>Nombre: {{ alumno.nombreCompleto }}</h3>
+      <h3>RUT: {{ alumno.rut }}</h3>
+      <h3>Correo: {{ alumno.correoElectronico }}</h3>
+      <h3>Matrícula: {{ alumno.matricula }}</h3>
+      <h3>Vehículo: {{ alumno.descripcionVehiculo }}</h3>
+
+      <!-- Acordeón de inscripciones -->
+      <ion-list>
+        <ion-item
+          button
+          detail
+          *ngFor="let inscripcion of inscripciones"
+          (click)="toggleAsignatura(inscripcion.asignatura.id)">
+          <ion-label>
+            {{ inscripcion.asignatura.nombre_asig}}
+          </ion-label>
+        </ion-item>
+
+        <div *ngFor="let inscripcion of inscripciones">
+          <ion-card *ngIf="expandedAsignaturas.has(inscripcion.asignatura.id)" class="ion-padding">
+            <h3>Profesor: {{ inscripcion.asignatura.profesor?.Nom_prof }}</h3>
+            <h3>Sala: {{ inscripcion.sala?.Sala_class }}</h3>
+            <div *ngFor="let nota of inscripcion.asignatura.notas">
+              <ion-item>
+                <ion-label>Nota: {{ nota.notaValor }}</ion-label>
+              </ion-item>
+            </div>
+            <ion-button
+              expand="block"
+              color="danger"
+              (click)="eliminarInscripcion(inscripcion.id)">
+              Eliminar inscripción
+            </ion-button>
+          </ion-card>
+        </div>
+      </ion-list>
+
+      <!-- Asistencia -->
+      <ion-item
+        *ngIf="asistenciaRegistradaHoy"
+        color="success"
+        lines="none"
+        class="ion-margin-vertical">
+        <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+        Asistencia registrada hoy
+      </ion-item>
+
+      <!-- Botón para inscribirse -->
+      <div style="text-align: center; margin-top: 16px;">
+        <ion-button
+          expand="block"
+          shape="round"
+          color="primary"
+          (click)="irAInscripcion()">
+          Inscribir nueva asignatura
+        </ion-button>
+      </div>
+
+      <!-- QR -->
+      <div style="text-align: center; margin-top: 20px;">
+        <qrcode
+          [qrdata]="qrData"
+          [width]="200"
+          [errorCorrectionLevel]="'M'">
+        </qrcode>
+      </div>
+    </ion-card>
+  </ng-container>
+</ion-content>

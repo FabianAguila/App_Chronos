@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="abrirChat()">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <ion-label class="sr-only">Chat</ion-label>
+      </ion-button>
+      <ion-avatar class="avatar">
+        <img [src]="perfil?.avatar || 'assets/images/avatar-teacher.png'" alt="Perfil">
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dash-bg" fullscreen>
+  <div class="wrap">
+
+    <!-- Saludo -->
+    <section class="welcome">
+      <h1>¡Hola, {{ perfil?.nombre || 'Profesor/a' }}!</h1>
+      <p class="quote">“Educar es encender una llama, no llenar un recipiente.”</p>
+    </section>
+
+    <!-- Acceso rápido -->
+    <section class="quick">
+      <h2>Acceso Rápido</h2>
+      <div class="quick-grid">
+        <button class="qcard" (click)="go('asistencia')">
+          <ion-icon name="calendar-check-outline"></ion-icon>
+          <div>
+            <h3>Asistencia</h3>
+            <p>Gestiona la asistencia diaria de tus alumnos.</p>
+          </div>
+        </button>
+        <button class="qcard" (click)="go('calificaciones')">
+          <ion-icon name="school-outline"></ion-icon>
+          <div>
+            <h3>Calificaciones</h3>
+            <p>Registra y consulta las notas.</p>
+          </div>
+        </button>
+        <button class="qcard" (click)="go('chat')">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <div>
+            <h3>Chat</h3>
+            <p>Comunícate con alumnos y apoderados.</p>
+          </div>
+        </button>
+        <button class="qcard" (click)="go('anuncios')">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <div>
+            <h3>Anuncios</h3>
+            <p>Publica novedades e informes.</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Mis cursos -->
+    <section class="courses">
+      <h2>Mis Cursos</h2>
+
+      <div class="courses-grid">
+        <article class="course" *ngFor="let c of cursos">
+          <div class="thumb">
+            <img [src]="c.imagen || 'assets/images/curso-default.png'" alt="{{ c.nombre }}">
+          </div>
+
+          <div class="body">
+            <h3>{{ c.nombre }}</h3>
+            <p class="meta">
+              <ion-icon name="ribbon-outline"></ion-icon> {{ c.grado }}° Grado
+              <span class="dot">•</span>
+              <ion-icon name="people-outline"></ion-icon> {{ c.alumnos }} Alumnos
+            </p>
+
+            <div class="actions">
+              <ion-button size="small" fill="clear" (click)="verCurso(c)">Ver Detalles</ion-button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </div>
+</ion-content>

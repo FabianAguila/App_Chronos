@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Escanear QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="hasCameras; else noCam">
+    <zxing-scanner
+      [torch]="true"
+      [autostart]="true"
+      (scanSuccess)="onCodeResult($event)">
+    </zxing-scanner>
+  </ng-container>
+
+  <ng-template #noCam>
+    <ion-text color="danger">
+      <p class="ion-text-center">
+        🚫 No se detectó ninguna cámara.<br />
+        Conecta una y presiona el botón para volver a intentar.
+      </p>
+    </ion-text>
+    <div class="ion-text-center" style="margin-top: 1rem;">
+      <ion-button color="primary" (click)="reintentarDeteccion()">
+        🔄 Reintentar detección
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-content>
