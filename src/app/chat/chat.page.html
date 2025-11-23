@@ -1,0 +1,50 @@
+<ion-header class="chat-header ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="brand"><ion-icon name="chatbubbles-outline"></ion-icon><span>Mensajes</span></ion-title>
+  </ion-toolbar>
+  <div class="top-search">
+    <ion-searchbar placeholder="Buscar docentes o mensajes" [(ngModel)]="query" showCancelButton="never"></ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-content class="chat-content">
+  <ion-segment value="conversaciones" class="chat-segment">
+    <ion-segment-button value="conversaciones"><ion-label>Conversaciones</ion-label></ion-segment-button>
+    <ion-segment-button value="docentes"><ion-label>Docentes</ion-label></ion-segment-button>
+  </ion-segment>
+
+  <ion-list lines="none" class="chat-list">
+    <ion-item button *ngFor="let c of filtered" class="chat-item" [routerLink]="['/chat-room', c.id]">
+      <ion-avatar slot="start">
+        <img [src]="c.avatar || 'assets/images/avatar-default.png'" alt="avatar" />
+      </ion-avatar>
+      <ion-label>
+        <div class="row">
+          <h3 class="name">{{ c.nombre }}</h3>
+          <div class="time">{{ c.hora }}</div>
+        </div>
+        <p class="preview">{{ c.mensaje }}</p>
+      </ion-label>
+      <ion-badge *ngIf="c.unread" color="primary">{{ c.unread }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" aria-label="Nuevo mensaje">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-footer class="tabs">
+    <ion-toolbar>
+      <ion-tabs>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button routerLink="/home"><ion-icon name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
+          <ion-tab-button routerLink="/notas"><ion-icon name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
+          <ion-tab-button routerLink="/asistencia"><ion-icon name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
+          <ion-tab-button routerLink="/chat" selected="true"><ion-icon name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

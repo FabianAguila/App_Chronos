@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>signup</ion-title> -->
+    <ion-buttons slot="start">
+      <ion-back-button defaulthref = "login" text="">
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="bg-color">
+
+  <ion-card class="ion-no-margin" color="transparent">
+
+    <ion-card-header>
+      <ion-card-title>
+        Registro de Usuario
+      </ion-card-title>
+      <ion-card-subtitle>
+      Recupera tu contraseña ingresando tu correo electrónico con el que te registraste
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item color="transparent">
+        <ion-input name="email" type="text" placeholder="Email" color="black">
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-input>
+      </ion-item>
+
+      <div class = "recover-btns">
+        <ion-button fill="outline" shape="round" color="#53565A">Recuperar Cuenta</ion-button>
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

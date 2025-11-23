@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Inscripción de Asignaturas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Formulario</ion-card-subtitle>
+      <ion-card-title>Selecciona tu asignatura</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item lines="full">
+        <ion-label position="stacked">Asignatura</ion-label>
+        <ion-select [(ngModel)]="asignaturaSeleccionada" placeholder="Selecciona una opción">
+          <ion-select-option *ngFor="let asignatura of asignaturas" [value]="asignatura.id">
+            {{ asignatura.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button 
+        expand="block" 
+        class="ion-margin-top" 
+        color="success" 
+        [disabled]="!asignaturaSeleccionada" 
+        (click)="inscribir()">
+        Inscribirme
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

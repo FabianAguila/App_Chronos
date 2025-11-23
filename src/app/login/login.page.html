@@ -1,0 +1,57 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar></ion-toolbar>
+</ion-header>
+
+<ion-content class="login-bg" fullscreen>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <img src="assets/images/logo-mark.svg" alt="" class="brand-mark" />
+
+      <h1 class="brand-title">DocenteDigital</h1>
+      <p class="subtitle">¡Bienvenido de nuevo!</p>
+
+      <form [formGroup]="formLogin" (ngSubmit)="ingresar()" novalidate>
+        <ion-item lines="full" class="field">
+          <ion-input
+            formControlName="correo"
+            type="email"
+            label=" "
+            placeholder="ejemplo@docentedigital.com"
+            autocomplete="email"
+            inputmode="email"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="field">
+          <ion-input
+            formControlName="password"
+            type="password"
+            label=" "
+            placeholder="********"
+            autocomplete="current-password"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Error global (como en la imagen, en rojo debajo de los inputs) -->
+        <div class="error-text" *ngIf="loginError">
+          Usuario o contraseña incorrectos.
+        </div>
+
+        <ion-button
+          type="submit"
+          expand="block"
+          class="btn-ingresar"
+          [disabled]="formLogin.invalid || loading"
+        >
+          Ingresar
+        </ion-button>
+
+        <div class="links">
+          <a [routerLink]="['/forgotpass']">¿Olvidaste tu contraseña?</a>
+          <a (click)="redirectToSignup()">Crear cuenta alumno</a>
+          <a [routerLink]="['/signup-profesor']">Crear cuenta profesor</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>
