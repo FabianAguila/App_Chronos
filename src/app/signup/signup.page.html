@@ -1,0 +1,59 @@
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="icon-container">
+          <ion-icon name="person-add"></ion-icon>
+        </div>
+        <h1>Registro de Alumno</h1>
+        <p>Únete a Chronos</p>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="formRegis" (ngSubmit)="registrarAlumno()" class="auth-form">
+
+        <div class="input-group">
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="nombreCompleto" placeholder="Nombre Completo"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="fechaNacimiento" type="text" placeholder="Fecha de Nacimiento (dd/mm/aaaa)"
+              inputmode="numeric"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="rut" placeholder="RUT"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="correoElectronico" type="email" placeholder="Correo Electrónico"
+              inputmode="email"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="contrasena" type="password" placeholder="Contraseña"></ion-input>
+          </ion-item>
+        </div>
+
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <ion-button type="submit" expand="block" class="submit-btn" [disabled]="formRegis.invalid">
+            Registrarse
+          </ion-button>
+        </div>
+
+      </form>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>¿Ya tienes cuenta?</p>
+        <ion-button fill="clear" size="small" [routerLink]="['/login']" class="login-link">
+          Iniciar Sesión
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

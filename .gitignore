@@ -1,0 +1,10 @@
+# Node / Angular / Ionic
+node_modules/
+dist/
+www/
+coverage/
+*.local
+.env*
+# Capacitor/Android/iOS builds (si aplican)
+android/
+ios/

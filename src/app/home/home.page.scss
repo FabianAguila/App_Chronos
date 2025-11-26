@@ -1,0 +1,43 @@
+/* Header */
+.home-header {
+	background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+	color: white;
+	padding-bottom: 8px;
+}
+.header-toolbar { --background: transparent; color: #fff; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.brand ion-icon { font-size: 22px; }
+
+.header-hero { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 16px; }
+.hello { opacity: .9; font-size: 14px; }
+.student-name { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: .2px; }
+.sub { margin: 4px 0 0; opacity: .85; font-size: 13px; }
+.hero-avatar { width: 64px; height: 64px; border: 2px solid rgba(255,255,255,.6); }
+
+.quick-stats { padding: 0 12px 12px; }
+.stat { background: rgba(255,255,255,.18); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.25); border-radius: 12px; padding: 10px 8px; text-align: center; color: #fff; }
+.stat ion-icon { font-size: 18px; opacity: .95; }
+.stat .kpi { font-size: 18px; font-weight: 800; line-height: 1.1; margin-top: 4px; }
+.stat .lbl { font-size: 12px; opacity: .9; }
+
+/* Content */
+.home-content { --background: #f6f7fb; }
+.card { border-radius: 16px; box-shadow: 0 8px 28px rgba(16,24,40,.06); }
+.attendance .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.attendance h2 { margin: 0; font-weight: 800; font-size: 20px; color: #111827; }
+.progress-lg { height: 10px; --progress-background: #e5e7eb; --progress-background-rgb: 229,231,235; --background: linear-gradient(90deg,#22c55e,#3b82f6); border-radius: 9999px; }
+.muted { color: #6b7280; font-size: 13px; margin-top: 6px; }
+
+.grade-list ion-item { --background: #fff; --padding-start: 12px; --inner-padding-end: 12px; --min-height: 58px; }
+.grade-list .subj { font-size: 20px; color: #6366f1; }
+.grade-list h3 { margin: 0; font-weight: 700; color: #0f172a; }
+.grade-list p { margin: 2px 0 0; color: #6b7280; font-size: 12px; }
+
+.upcoming ion-item { --background: #fff; }
+
+.tip ion-card-content { display: flex; gap: 12px; align-items: flex-start; }
+.tip ion-icon { font-size: 22px; color: #f59e0b; }
+.tip h3 { margin: 0; font-weight: 800; }
+.tip p { margin: 4px 0 0; color: #374151; font-size: 13px; }
+
+ion-footer.tabs { position: sticky; bottom: 0; }

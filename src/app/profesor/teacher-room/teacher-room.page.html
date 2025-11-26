@@ -1,0 +1,20 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/teacher-home"></ion-back-button></ion-buttons>
+    <ion-title>Detalle de Sala</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Sala {{ sala.id }}</ion-card-title>
+      <ion-card-subtitle>{{ sala.ubicacion }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><b>Capacidad:</b> {{ sala.capacidad }} alumnos</p>
+      <p><b>Recursos:</b> {{ sala.recursos.join(', ') }}</p>
+      <div class="map-ph">Mapa del campus (placeholder)</div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

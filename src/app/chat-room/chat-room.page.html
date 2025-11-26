@@ -1,0 +1,35 @@
+<ion-header class="chat-header ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chat"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="brand">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <span>{{ profesorNombre }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-room-content">
+  <div class="mensajes">
+    <div *ngFor="let m of mensajes" [ngClass]="['burbuja', m.de]">
+      <div class="texto">{{ m.texto }}</div>
+      <div class="hora">{{ m.hora }}</div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="chat-input-footer">
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-input
+        [(ngModel)]="mensajeNuevo"
+        placeholder="Escribe un mensaje"
+        (keyup.enter)="enviar()">
+      </ion-input>
+      <ion-button fill="clear" (click)="enviar()">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

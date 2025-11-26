@@ -1,0 +1,23 @@
+ion-header {
+  --background: #3880ff;
+  --color: #fff;
+  ion-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}
+
+ion-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #f4f6f8;
+  color: #222;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+  }
+}

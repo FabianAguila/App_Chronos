@@ -1,0 +1,93 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/teacher-home"></ion-back-button></ion-buttons>
+    <ion-title>Planificador de Clases</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="guardar()" color="primary">Guardar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nueva sesión</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="agregar()">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" sizeMd="3">
+              <ion-item>
+                <ion-label position="stacked">Día</ion-label>
+                <ion-select formControlName="dia">
+                  <ion-select-option *ngFor="let d of dias; index as i" [value]="i+1">{{ d }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6" sizeMd="3">
+              <ion-item>
+                <ion-label position="stacked">Inicio</ion-label>
+                <ion-datetime-button datetime="ini"></ion-datetime-button>
+                <ion-modal [keepContentsMounted]="true">
+                  <ng-template>
+                    <ion-datetime id="ini" presentation="time" formControlName="inicio"></ion-datetime>
+                  </ng-template>
+                </ion-modal>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6" sizeMd="3">
+              <ion-item>
+                <ion-label position="stacked">Fin</ion-label>
+                <ion-datetime-button datetime="fin"></ion-datetime-button>
+                <ion-modal [keepContentsMounted]="true">
+                  <ng-template>
+                    <ion-datetime id="fin" presentation="time" formControlName="fin"></ion-datetime>
+                  </ng-template>
+                </ion-modal>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" sizeMd="3">
+              <ion-item>
+                <ion-label position="stacked">Asignatura</ion-label>
+                <ion-input formControlName="asignatura" placeholder="Ej: Matemáticas"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" sizeMd="4">
+              <ion-item>
+                <ion-label position="stacked">Sala</ion-label>
+                <ion-input formControlName="sala" placeholder="Ej: B12"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" sizeMd="8" class="ion-text-right ion-align-self-end">
+              <ion-button type="submit" color="primary">Agregar sesión</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="error" *ngIf="conflictMsg">{{ conflictMsg }}</div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Sesiones planificadas</ion-card-title>
+    </ion-card-header>
+    <ion-list lines="full">
+      <ion-item *ngFor="let s of sesiones; index as i">
+        <ion-label>
+          <h3>{{ dias[s.dia-1] }} {{ s.inicio }} - {{ s.fin }}</h3>
+          <p>{{ s.asignatura }} <span *ngIf="s.sala">• Sala {{ s.sala }}</span></p>
+        </ion-label>
+        <ion-button fill="clear" color="danger" (click)="eliminar(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="!sesiones.length">
+        <ion-label>Agrega tus primeras sesiones usando el formulario.</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

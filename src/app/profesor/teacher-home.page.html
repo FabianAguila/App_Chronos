@@ -1,0 +1,88 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="abrirChat()">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <ion-label class="sr-only">Chat</ion-label>
+      </ion-button>
+      <ion-button fill="solid" color="danger" (click)="cerrarSesion()" title="Cerrar sesión" style="margin-right:8px;">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Cerrar sesión
+      </ion-button>
+      <ion-avatar class="avatar">
+        <img [src]="perfil?.avatar || 'assets/images/avatar-teacher.png'" alt="Perfil">
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dash-bg" fullscreen>
+  <div class="wrap">
+
+    <!-- Saludo -->
+    <section class="welcome">
+      <h1>¡Hola, {{ perfil?.nombre || 'Profesor/a' }}!</h1>
+      <p class="quote">“Educar es encender una llama, no llenar un recipiente.”</p>
+    </section>
+
+    <!-- Acceso rápido -->
+    <section class="quick">
+      <h2>Acceso Rápido</h2>
+      <div class="quick-grid">
+        <button class="qcard" (click)="goPlanificador()">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <div>
+            <h3>Planificador</h3>
+            <p>Organiza tus sesiones y evita solapes.</p>
+          </div>
+        </button>
+        <button class="qcard" (click)="abrirChat()">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <div>
+            <h3>Chat</h3>
+            <p>Comunícate con alumnos y apoderados.</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Mis cursos -->
+    <section class="courses">
+      <h2>Mis Cursos</h2>
+
+      <div class="courses-grid">
+        <article class="course" *ngFor="let c of cursos">
+          <div class="thumb">
+            <img [src]="c.imagen || 'assets/images/curso-default.png'" alt="{{ c.nombre }}">
+          </div>
+
+          <div class="body">
+            <h3>{{ c.nombre }}</h3>
+            <p class="meta">
+              <ion-icon name="ribbon-outline"></ion-icon> {{ c.grado }}° Grado
+              <span class="dot">•</span>
+              <ion-icon name="people-outline"></ion-icon> {{ c.alumnos }} Alumnos
+            </p>
+
+            <div class="actions">
+              <ion-button size="small" fill="clear" (click)="goNotas(c)">
+                <ion-icon name="school-outline" slot="start"></ion-icon>
+                Notas
+              </ion-button>
+              <ion-button size="small" fill="clear" (click)="goAsistencia(c)">
+                <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+                Asistencia
+              </ion-button>
+              <ion-button size="small" fill="clear" (click)="goSala(c)">
+                <ion-icon name="business-outline" slot="start"></ion-icon>
+                Sala
+              </ion-button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </div>
+</ion-content>
