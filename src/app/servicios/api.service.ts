@@ -49,6 +49,11 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/Alumno/login`, datosLogin);
   }
 
+  // Login para profesores (endpoint separado en el backend)
+  iniciarSesionProfesor(datosLogin: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/Profesor/login`, datosLogin);
+  }
+
   getAlumnoPorId(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/Alumno/${id}`);
   }
@@ -98,11 +103,46 @@ export class ApiService {
     return this.http.get<ProfesorDto>(`${this.apiUrl}/Profesor/${id}`);
   }
 
+  // Obtener todos los profesores registrados
+  getProfesores(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Profesor`);
+  }
+
   getCursosProfesor(id: number): Observable<CursoCardDto[]> {
     return this.http.get<CursoCardDto[]>(`${this.apiUrl}/Profesor/${id}/cursos`);
   }
 
   getDashboardProfesor(id: number): Observable<TeacherDashboardDto> {
     return this.http.get<TeacherDashboardDto>(`${this.apiUrl}/Profesor/${id}/dashboard`);
+  }
+
+  // Chat: obtener conversación entre profesor y alumno
+  getConversacion(profesorId: number, alumnoId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Chat/conversacion/${profesorId}/${alumnoId}`);
+  }
+
+  // Enviar mensaje (body: { profesorId, alumnoId, remitente, texto })
+  enviarMensaje(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Chat`, payload);
+  }
+
+  // Obtener alumnos asociados a un profesor
+  getAlumnosProfesor(profesorId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Profesor/${profesorId}/alumnos`);
+  }
+
+  // Obtener todos los alumnos registrados (fallback si existe)
+  getAlumnos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Alumno`);
+  }
+
+  // Agregar una nota para un alumno (payload: { profesorId, alumnoId, valor, tipo?, descripcion?, fecha? })
+  agregarNotaAlumno(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Notas`, payload);
+  }
+
+  // Marcar asistencia para un alumno (payload: { profesorId, alumnoId, fecha, presente })
+  marcarAsistenciaAlumno(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Asistencia`, payload);
   }
 }

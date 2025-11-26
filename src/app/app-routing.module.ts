@@ -45,6 +45,14 @@ const routes: Routes = [
     canLoad: [ProfesorGuard],
   },
 
+  // pantalla exclusiva para profesores: lista de conversaciones con alumnos
+  {
+    path: 'teacher-chat',
+    loadChildren: () => import('./teacher-chat/teacher-chat.module').then(m => m.TeacherChatPageModule),
+    canActivate: [ProfesorGuard],
+    canLoad: [ProfesorGuard],
+  },
+
   // nuevas páginas (deben ir antes del comodín)
   {
     path: 'chat',

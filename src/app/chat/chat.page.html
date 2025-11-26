@@ -14,9 +14,15 @@
   </ion-segment>
 
   <ion-list lines="none" class="chat-list">
-    <ion-item button *ngFor="let c of filtered" class="chat-item" [routerLink]="['/chat-room', c.id]">
+    <ng-container *ngIf="filtered && filtered.length > 0; else emptyState">
+      <ion-item button *ngFor="let c of filtered" class="chat-item" (click)="openChat(c)">
       <ion-avatar slot="start">
-        <img [src]="c.avatar || 'assets/images/avatar-default.png'" alt="avatar" />
+        <ng-container *ngIf="c.avatar; else initialsTpl">
+          <img [src]="c.avatar" alt="avatar" />
+        </ng-container>
+        <ng-template #initialsTpl>
+          <div class="avatar-initials">{{ c.initials }}</div>
+        </ng-template>
       </ion-avatar>
       <ion-label>
         <div class="row">
@@ -26,7 +32,16 @@
         <p class="preview">{{ c.mensaje }}</p>
       </ion-label>
       <ion-badge *ngIf="c.unread" color="primary">{{ c.unread }}</ion-badge>
-    </ion-item>
+      </ion-item>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-list">
+        <ion-icon name="people-outline"></ion-icon>
+        <p>No se encontraron docentes.</p>
+        <ion-button fill="clear" (click)="initChats()">Reintentar</ion-button>
+      </div>
+    </ng-template>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
