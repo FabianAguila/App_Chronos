@@ -17,8 +17,6 @@ export class HomePage implements OnInit {
   asistenciaRegistradaHoy: boolean = false;
   qrData: string = '';
   accordionState: boolean[] = [];
-  promedioGeneral: string = '0.0';
-  cantidadRamos: number = 0;
 
   // control de acordeón
   expandedAsignaturas: Set<number> = new Set();
@@ -28,20 +26,20 @@ export class HomePage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {}
 
   async ngOnInit() {
-    const res = await Preferences.get({ key: 'alumnoId' });
-    const id = res.value;
+  const res = await Preferences.get({ key: 'alumnoId' });
+  const id = res.value;
 
-    if (id && !isNaN(+id)) {
-      const alumnoId = +id;
-      this.cargarDatosAlumno(alumnoId);
-      this.verificarAsistenciaHoy(alumnoId);
-      this.cargarInscripcionesAlumno(alumnoId);
-    }
+  if (id && !isNaN(+id)) {
+  const alumnoId = +id;
+  this.cargarDatosAlumno(alumnoId);
+  this.verificarAsistenciaHoy(alumnoId);
+  this.cargarInscripcionesAlumno(alumnoId);
+}
 
-  }
+}
 
   cargarDatosAlumno(id: number) {
     this.apiService.getAlumnoCompleto(id).subscribe({
@@ -60,53 +58,17 @@ export class HomePage implements OnInit {
     });
   }
 
-  cargarInscripcionesAlumno(id: number) {
-    if (!id) return;
+cargarInscripcionesAlumno(id: number) {
+  if (!id) return;
 
-    this.apiService.getInscripcionAlumno(id).subscribe({
-      next: (inscripciones) => {
-        this.inscripciones = inscripciones;
-        this.cantidadRamos = inscripciones.length;
-        this.accordionState = inscripciones.map(() => false);
-        this.calcularPromedioGeneral();
-      },
-      error: (err) => console.error('No se pudo cargar las inscripciones', err)
-    });
-  }
-
-  calcularPromedioGeneral() {
-    if (!this.inscripciones || this.inscripciones.length === 0) {
-      this.promedioGeneral = '0.0';
-      return;
-    }
-
-    let sumaPromedios = 0;
-    let asignaturasConNotas = 0;
-
-    this.inscripciones.forEach((insc: any) => {
-      // Se asume que cada inscripción tiene una propiedad 'notas' que es un array
-      // Ajusta 'valor' o 'nota' según la estructura real de tu backend
-      const notas = insc.notas || [];
-
-      if (Array.isArray(notas) && notas.length > 0) {
-        const sumaNotas = notas.reduce((acc: number, curr: any) => {
-          // Intenta obtener el valor numérico de la nota
-          const valor = typeof curr === 'object' ? (curr.valor || curr.nota || 0) : curr;
-          return acc + Number(valor);
-        }, 0);
-
-        const promedioAsignatura = sumaNotas / notas.length;
-        sumaPromedios += promedioAsignatura;
-        asignaturasConNotas++;
-      }
-    });
-
-    if (asignaturasConNotas > 0) {
-      this.promedioGeneral = (sumaPromedios / asignaturasConNotas).toFixed(1);
-    } else {
-      this.promedioGeneral = '0.0';
-    }
-  }
+  this.apiService.getInscripcionAlumno(id).subscribe({
+    next: (inscripciones) => {
+      this.inscripciones = inscripciones;
+      this.accordionState = inscripciones.map(() => false);
+    },
+    error: (err) => console.error('No se pudo cargar las inscripciones', err)
+  });
+}
 
 
   toggleAsignatura(asignaturaId: number) {
@@ -139,11 +101,11 @@ export class HomePage implements OnInit {
           handler: () => {
             this.apiService.eliminarInscripcion(inscripcionId).subscribe({
               next: () => {
-                this.cargarInscripcionesAlumno(this.alumno.id);
+              this.cargarInscripcionesAlumno(this.alumno.id);
               },
-              error: (err) => {
-                console.error("Error eliminando la inscripcion")
-              }
+            error: (err) => {
+              console.error("Error eliminando la inscripcion")
+            }
             });
           }
         }

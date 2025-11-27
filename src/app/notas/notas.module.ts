@@ -10,4 +10,4 @@ import { NotasPage } from './notas.page';
   imports: [CommonModule, FormsModule, IonicModule, NotasPageRoutingModule],
   declarations: [NotasPage],
 })
-export class NotasPageModule { }
+export class NotasPageModule {}

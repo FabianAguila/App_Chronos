@@ -1,39 +1,65 @@
 .chat-room-content {
-  --background: #f6f7fb;
+  --background: #f3f5f9;
 }
 
 .mensajes {
-  padding: 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .burbuja {
-  max-width: 80%;
-  padding: 8px 10px;
-  border-radius: 12px;
-  font-size: 14px;
+  max-width: 76%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.3;
+  box-shadow: 0 6px 14px rgba(15,23,42,0.06);
 }
 
 .burbuja.profesor {
   align-self: flex-start;
-  background: #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  border-top-left-radius: 6px;
 }
 
 .burbuja.alumno {
   align-self: flex-end;
-  background: #3b82f6;
+  background: linear-gradient(90deg,#2563eb 0%, #06b6d4 100%);
   color: #fff;
+  border-top-right-radius: 6px;
 }
 
 .burbuja .hora {
+  display:block;
   font-size: 11px;
-  opacity: .7;
-  margin-top: 2px;
+  opacity: .75;
+  margin-top: 6px;
   text-align: right;
 }
 
 .chat-input-footer ion-item {
   --background: #fff;
+  padding: 8px 12px;
+  box-shadow: 0 -6px 18px rgba(2,6,23,0.04);
 }
+
+/* small screens tweak */
+@media (max-width: 420px) {
+  .burbuja { max-width: 88%; }
+}
+
+.no-mensajes {
+  height: calc(100vh - 140px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: #6b7280;
+}
+.no-mensajes-inner { text-align:center; }
+.no-mensajes-inner ion-icon { font-size: 44px; margin-bottom: 8px; color: #c7d2fe; }
+.no-mensajes-inner p { margin:0; font-size:16px; }
+
+.back-text { margin-left:6px; font-size:14px; color: #0f172a; }

@@ -55,6 +55,9 @@ export class LoginPage {
     const correoForm = (this.formLogin.value.correo as string).trim();
     const contraseña = (this.formLogin.value.password as string).trim();
 
+    // Determina si parece un profesor por el dominio antes de llamar al API
+    const looksLikeProfesor = correoForm.toLowerCase().endsWith('@profesor.duocuc.cl');
+
     console.log('🔐 Intentando login con:', { 
       CorreoElectronico: correoForm, 
       Contrasena: '***' + contraseña.substring(Math.max(0, contraseña.length - 2))
@@ -63,8 +66,14 @@ export class LoginPage {
     this.loading = true;
 
     // Enviar con PascalCase como espera el backend .NET
-    this.apiService
-      .iniciarSesion({ CorreoElectronico: correoForm, Contrasena: contraseña })
+    const loginPayload = { CorreoElectronico: correoForm, Contrasena: contraseña };
+
+    // Llamar al endpoint correspondiente según el dominio del correo
+    const loginObservable = looksLikeProfesor
+      ? this.apiService.iniciarSesionProfesor(loginPayload)
+      : this.apiService.iniciarSesion(loginPayload);
+
+    loginObservable
       .pipe(take(1), finalize(() => (this.loading = false)))
       .subscribe({
         next: async (res: LoginResponse) => {
@@ -77,22 +86,24 @@ export class LoginPage {
 
           console.log('📧 Correo:', correo, '| Profesor:', isProfesor, '| Admin:', isAdmin);
 
-          // Guarda datos base
-          await Preferences.set({ key: 'alumnoId', value: String(res.id) });
+          // Guarda datos base (no asuma que el id es de alumno)
           await Preferences.set({ key: 'nombreUsuario', value: res?.nombreUsuario ?? '' });
-          
+
           // Guardar objeto usuario para compatibilidad con AutenticacionService
           await Preferences.set({
             key: 'usuario',
             value: JSON.stringify({ id: res.id, nombreUsuario: res?.nombreUsuario ?? '', correoElectronico: correo }),
           });
 
-          // Persiste rol y profesorId si aplica
+          // Persiste rol y los ids correctos según rol
           await Preferences.set({ key: 'rol', value: isProfesor ? 'profesor' : 'alumno' });
-          if (isProfesor && typeof res.profesorId === 'number') {
-            await Preferences.set({ key: 'profesorId', value: String(res.profesorId) });
+          if (isProfesor) {
+            // Si el backend devuelve un profesorId úsalo; si no, usa el id general
+            const profesorIdToStore = typeof res.profesorId === 'number' ? res.profesorId : res.id;
+            await Preferences.set({ key: 'profesorId', value: String(profesorIdToStore) });
+            await Preferences.remove({ key: 'alumnoId' });
           } else {
-            // Limpia profesorId si no corresponde
+            await Preferences.set({ key: 'alumnoId', value: String(res.id) });
             await Preferences.remove({ key: 'profesorId' });
           }
 

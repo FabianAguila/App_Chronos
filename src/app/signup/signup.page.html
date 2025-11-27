@@ -1,59 +1,60 @@
-<ion-content [fullscreen]="true" class="auth-content">
-  <div class="auth-wrapper">
-    <div class="auth-card">
-      <!-- Header -->
-      <div class="auth-header">
-        <div class="icon-container">
-          <ion-icon name="person-add"></ion-icon>
-        </div>
-        <h1>Registro de Alumno</h1>
-        <p>Únete a Chronos</p>
-      </div>
 
-      <!-- Form -->
-      <form [formGroup]="formRegis" (ngSubmit)="registrarAlumno()" class="auth-form">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro Alumno</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-        <div class="input-group">
-          <ion-item lines="none" class="custom-input">
-            <ion-input formControlName="nombreCompleto" placeholder="Nombre Completo"></ion-input>
-          </ion-item>
+<ion-content class="ion-padding">
+  <form [formGroup]="formRegis" (ngSubmit)="registrarAlumno()">
+    <ion-item>
+      <ion-label position="floating">Nombre Completo</ion-label>
+      <ion-input formControlName="nombreCompleto"></ion-input>
+    </ion-item>
 
-          <ion-item lines="none" class="custom-input">
-            <ion-input formControlName="fechaNacimiento" type="text" placeholder="Fecha de Nacimiento (dd/mm/aaaa)"
-              inputmode="numeric"></ion-input>
-          </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-datetime
+        formControlName="fechaNacimiento"
+        presentation="date"
+        displayFormat="DD/MM/YYYY">
+      </ion-datetime>
+    </ion-item>
 
-          <ion-item lines="none" class="custom-input">
-            <ion-input formControlName="rut" placeholder="RUT"></ion-input>
-          </ion-item>
+    <ion-item>
+      <ion-label position="floating">RUT</ion-label>
+      <ion-input formControlName="rut"></ion-input>
+    </ion-item>
 
-          <ion-item lines="none" class="custom-input">
-            <ion-input formControlName="correoElectronico" type="email" placeholder="Correo Electrónico"
-              inputmode="email"></ion-input>
-          </ion-item>
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input formControlName="correoElectronico" type="email"></ion-input>
+    </ion-item>
 
-          <ion-item lines="none" class="custom-input">
-            <ion-input formControlName="contrasena" type="password" placeholder="Contraseña"></ion-input>
-          </ion-item>
-        </div>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="contrasena" type="password"></ion-input>
+    </ion-item>
 
+    <ion-item>
+      <ion-label>¿Usa vehículo?</ion-label>
+      <ion-toggle formControlName="usaVehiculo" (ionChange)="toggleVehiculo()"></ion-toggle>
+    </ion-item>
 
-        <!-- Actions -->
-        <div class="form-actions">
-          <ion-button type="submit" expand="block" class="submit-btn" [disabled]="formRegis.invalid">
-            Registrarse
-          </ion-button>
-        </div>
+    <ng-container *ngIf="formRegis.get('usaVehiculo')?.value">
+      <ion-item>
+        <ion-label position="floating">Matrícula</ion-label>
+        <ion-input formControlName="matricula"></ion-input>
+      </ion-item>
 
-      </form>
+      <ion-item>
+        <ion-label position="floating">Descripción del Vehículo</ion-label>
+        <ion-input formControlName="descripcionVehiculo"></ion-input>
+      </ion-item>
+    </ng-container>
 
-      <!-- Footer -->
-      <div class="auth-footer">
-        <p>¿Ya tienes cuenta?</p>
-        <ion-button fill="clear" size="small" [routerLink]="['/login']" class="login-link">
-          Iniciar Sesión
-        </ion-button>
-      </div>
-    </div>
-  </div>
+    <ion-button expand="full" type="submit" [disabled]="formRegis.invalid">
+      Registrarse
+    </ion-button>
+  </form>
 </ion-content>

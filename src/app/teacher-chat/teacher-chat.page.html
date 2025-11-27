@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border teacher-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/teacher-home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mensajes - Profesor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="mostrarTodos()" color="primary" fill="outline">Agregar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar placeholder="Buscar alumnos o mensajes" showCancelButton="never"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="teacher-content">
+  <ion-list lines="none">
+    <ion-item button *ngFor="let a of alumnos" (click)="openConversation(a)" class="teacher-item">
+      <ion-avatar slot="start" class="teacher-avatar"><img src="assets/images/avatar-default.png" /></ion-avatar>
+      <ion-label class="teacher-label">
+        <h3>{{ a.nombre }}</h3>
+        <p class="preview">{{ a.mensaje || 'Sin mensajes todavía' }}</p>
+      </ion-label>
+      <div slot="end" class="meta">
+        <ion-note class="hora">{{ a.hora || '' }}</ion-note>
+        <ion-badge *ngIf="a.unread" color="danger" class="unread">{{ a.unread }}</ion-badge>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
