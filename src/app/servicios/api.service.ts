@@ -5,7 +5,7 @@ import { ProfesorDto, CursoCardDto, TeacherDashboardDto } from '../profesor/teac
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private apiUrl = 'https://localhost:7020/api';
+  private apiUrl = 'https://apichronos-production.up.railway.app';
 
   constructor(private http: HttpClient) {}
 
