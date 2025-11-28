@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProfesorDto, CursoCardDto, TeacherDashboardDto } from '../profesor/teacher.dtos';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private apiUrl = 'https://localhost:7020/api';
+  private apiUrl = environment.apiUrl || 'https://apichronos-production.up.railway.app';
 
   constructor(private http: HttpClient) {}
 
