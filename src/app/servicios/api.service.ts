@@ -98,6 +98,20 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/Notas`, { params: { nuevaNota: nuevaNota.toString() } });
   }
 
+    // ===== ADMIN: gestión de asignaturas =====
+  crearAsignatura(asignatura: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Asignatura`, asignatura);
+  }
+
+  // ===== ADMIN: gestión de usuarios =====
+  getUsuarios(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Usuario`);
+  }
+
+  actualizarUsuario(id: number, usuario: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/Usuario/${id}`, usuario);
+  }
+  
   // 🔽🔽 PROFESOR (tipado + URL correcta)
   getProfesor(id: number): Observable<ProfesorDto> {
     return this.http.get<ProfesorDto>(`${this.apiUrl}/Profesor/${id}`);
