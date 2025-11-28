@@ -3,5 +3,5 @@ export const environment = {
   firebaseConfig : {
     
   },
-  apiUrl:"https://apichronos-production.up.railway.app"
+  apiUrl:"https://apichronos-production.up.railway.app/api"
 };
