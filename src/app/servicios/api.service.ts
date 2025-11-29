@@ -8,10 +8,15 @@ import { environment } from '../../environments/environment';
 export class ApiService {
 private apiUrl = environment.apiUrl || 'https://apichronos-production.up.railway.app';
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
   registrarProfesor(profesor: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Profesor`, profesor);
+    const payload = {
+      Nom_prof: profesor.Nom_prof ?? profesor.nombre ?? profesor.name ?? '',
+      CorreoElectronico: profesor.CorreoElectronico ?? profesor.correo ?? profesor.email ?? '',
+      Contrasena: profesor.Contrasena ?? profesor.contrasena ?? profesor.password ?? ''
+    };
+
+    return this.http.post(`${this.apiUrl}/Profesor`, payload);
   }
   // CRUD de Notas (Profesor)
   getNotasCurso(cursoId: number): Observable<any[]> {
