@@ -1,49 +1,105 @@
-import { Component } from '@angular/core';
-
-interface Materia {
-  id: number;
-  nombre: string;
-  promedio: number;
-  estado: 'Aprobado' | 'Excelente' | 'Requiere Mejora';
-  icon: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../servicios/api.service';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-notas',
   templateUrl: './notas.page.html',
   styleUrls: ['./notas.page.scss']
 })
-export class NotasPage {
-  materias: Materia[] = [
-    // Ejemplos dentro de escala 1.0 - 7.0 para evitar barras fuera de rango
-    { id: 1, nombre: 'Matemáticas', promedio: 6.5, estado: 'Aprobado', icon: 'document-text-outline' },
-    { id: 2, nombre: 'Ciencias Naturales', promedio: 7.0, estado: 'Aprobado', icon: 'flask-outline' },
-    { id: 3, nombre: 'Historia', promedio: 5.8, estado: 'Aprobado', icon: 'globe-outline' },
-    { id: 4, nombre: 'Lenguaje', promedio: 4.2, estado: 'Requiere Mejora', icon: 'newspaper-outline' },
-  ];
+export class NotasPage implements OnInit {
 
-  color(estado: Materia['estado']) {
-    return estado === 'Excelente' ? 'success' : estado === 'Aprobado' ? 'success' : 'warning';
+  inscripciones: any[] = [];
+  expandedAsignaturas: Set<number> = new Set();
+  loading: boolean = true;
+
+  constructor(private apiService: ApiService) { }
+
+  async ngOnInit() {
+    const res = await Preferences.get({ key: 'alumnoId' });
+    const id = res.value;
+
+    if (id && !isNaN(+id)) {
+      this.cargarInscripciones(+id);
+    } else {
+      this.loading = false;
+    }
+  }
+
+  cargarInscripciones(id: number) {
+    this.apiService.getInscripcionAlumno(id).subscribe({
+      next: (data) => {
+        this.inscripciones = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error cargando notas', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  toggleAsignatura(id: number) {
+    if (this.expandedAsignaturas.has(id)) {
+      this.expandedAsignaturas.delete(id);
+    } else {
+      this.expandedAsignaturas.add(id);
+    }
+  }
+
+  isExpanded(id: number): boolean {
+    return this.expandedAsignaturas.has(id);
+  }
+
+  getPromedioAsignatura(insc: any): number {
+    const notas = insc.notas || [];
+    if (!notas.length) return 0;
+
+    const suma = notas.reduce((acc: number, curr: any) => {
+      const valor = typeof curr === 'object' ? (curr.valor || curr.nota || 0) : curr;
+      return acc + Number(valor);
+    }, 0);
+
+    return suma / notas.length;
+  }
+
+  getEstadoAsignatura(promedio: number): { texto: string, color: string } {
+    if (promedio >= 6.0) return { texto: 'Excelente', color: 'success' };
+    if (promedio >= 4.0) return { texto: 'Aprobado', color: 'success' };
+    return { texto: 'Requiere Mejora', color: 'warning' };
   }
 
   get promedioGeneral(): number {
-    if (!this.materias.length) return 0;
-    return this.materias.reduce((s, m) => s + m.promedio, 0) / this.materias.length;
+    if (!this.inscripciones.length) return 0;
+
+    let sumaPromedios = 0;
+    let count = 0;
+
+    this.inscripciones.forEach(insc => {
+      const notas = insc.notas || [];
+      if (notas.length > 0) {
+        sumaPromedios += this.getPromedioAsignatura(insc);
+        count++;
+      }
+    });
+
+    return count > 0 ? sumaPromedios / count : 0;
   }
 
   get aprobadas(): number {
-    return this.materias.filter(m => m.estado !== 'Requiere Mejora').length;
+    return this.inscripciones.filter(insc => {
+      const notas = insc.notas || [];
+      if (notas.length === 0) return false;
+      return this.getPromedioAsignatura(insc) >= 4.0;
+    }).length;
   }
 
-  // Retorna el porcentaje de avance (0-100) clamped
-  getProgreso(m: Materia): number {
-    const pct = (m.promedio / 7) * 100;
+  getProgreso(promedio: number): number {
+    const pct = (promedio / 7) * 100;
     return Math.max(0, Math.min(100, pct));
   }
 
-  // Formatea a 1 decimal y respeta el rango 1.0 - 7.0
   fmt(n: number): string {
-    const v = Math.max(1, Math.min(7, n));
-    return v.toFixed(1);
+    return n.toFixed(1);
   }
 }

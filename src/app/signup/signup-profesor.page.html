@@ -1,29 +1,70 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Registro Profesor</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="icon-container">
+          <img src="assets/icon/icon-Chronos.png" alt="Chronos Logo"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h1>Registro Docente</h1>
+        <p>Únete al equipo académico</p>
+      </div>
 
-<ion-content class="ion-padding">
-  <form [formGroup]="formRegis" (ngSubmit)="registrarProfesor()">
-    <ion-item>
-      <ion-label position="floating">Nombre Completo</ion-label>
-      <ion-input formControlName="nombreCompleto"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input formControlName="correoElectronico" type="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input formControlName="contrasena" type="password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Especialidad</ion-label>
-      <ion-input formControlName="especialidad"></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit" [disabled]="formRegis.invalid">
-      Registrarse
-    </ion-button>
-  </form>
+      <!-- Form -->
+      <form [formGroup]="formRegisProfesor" (ngSubmit)="registrarProfesor()" class="auth-form">
+
+        <div class="input-group">
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="nombreCompleto" placeholder="Nombre Completo"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="correoElectronico" type="email" placeholder="Correo Institucional"
+              inputmode="email"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="contrasena" type="password" placeholder="Contraseña"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Vehicle Toggle -->
+        <div class="vehicle-section">
+          <ion-item lines="none" class="toggle-item">
+            <ion-label>¿Usa vehículo?</ion-label>
+            <ion-toggle formControlName="usaVehiculo" (ionChange)="toggleVehiculo()" mode="ios"></ion-toggle>
+          </ion-item>
+
+          <ng-container *ngIf="formRegisProfesor.get('usaVehiculo')?.value">
+            <div class="input-group vehicle-inputs">
+              <ion-item lines="none" class="custom-input">
+                <ion-input formControlName="matricula" placeholder="Matrícula"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="custom-input">
+                <ion-input formControlName="descripcionVehiculo" placeholder="Descripción del Vehículo"></ion-input>
+              </ion-item>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <ion-button type="submit" expand="block" class="submit-btn" [disabled]="formRegisProfesor.invalid">
+            Registrarse
+          </ion-button>
+        </div>
+
+      </form>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>¿Ya tienes cuenta?</p>
+        <ion-button fill="clear" size="small" [routerLink]="['/login']" class="login-link">
+          Iniciar Sesión
+        </ion-button>
+      </div>
+    </div>
+  </div>
 </ion-content>

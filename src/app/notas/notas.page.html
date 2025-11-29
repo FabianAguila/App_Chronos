@@ -7,7 +7,7 @@
     <ion-row>
       <ion-col size="4">
         <div class="stat">
-          <div class="kpi">{{ materias.length }}</div>
+          <div class="kpi">{{ inscripciones.length }}</div>
           <div class="lbl">Asignaturas</div>
         </div>
       </ion-col>
@@ -33,34 +33,68 @@
       <ion-card-title>Mis asignaturas</ion-card-title>
       <ion-card-subtitle>Última actualización reciente</ion-card-subtitle>
     </ion-card-header>
-    <ion-list lines="none" class="cards">
-      <ion-item *ngFor="let m of materias" class="grade-item">
-        <ion-icon [name]="m.icon" slot="start"></ion-icon>
-        <ion-label>
-          <div class="row">
-            <h3>{{ m.nombre }}</h3>
-            <ion-chip [color]="color(m.estado)" outline="true"><ion-label>{{ m.estado }}</ion-label></ion-chip>
-          </div>
-          <div class="bar" role="progressbar" [attr.aria-valuenow]="getProgreso(m)" aria-valuemin="0" aria-valuemax="100">
-            <div class="fill" [style.width.%]="getProgreso(m)"></div>
-          </div>
-          <p>Promedio: <b>{{ fmt(m.promedio) }}</b> / 7.0</p>
-        </ion-label>
-        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-      </ion-item>
+
+    <div *ngIf="loading" class="ion-text-center ion-padding">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <ion-list lines="none" class="cards" *ngIf="!loading">
+      <div *ngFor="let insc of inscripciones" class="grade-container">
+        <!-- Header del Item (Asignatura) -->
+        <ion-item button (click)="toggleAsignatura(insc.id)" class="grade-item" [class.expanded]="isExpanded(insc.id)">
+          <ion-icon name="book-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <div class="row">
+              <h3>{{ insc.asignatura?.nombre || 'Asignatura' }}</h3>
+              <ion-chip [color]="getEstadoAsignatura(getPromedioAsignatura(insc)).color" outline="true">
+                <ion-label>{{ getEstadoAsignatura(getPromedioAsignatura(insc)).texto }}</ion-label>
+              </ion-chip>
+            </div>
+            <div class="bar" role="progressbar">
+              <div class="fill" [style.width.%]="getProgreso(getPromedioAsignatura(insc))"></div>
+            </div>
+            <p>Promedio: <b>{{ fmt(getPromedioAsignatura(insc)) }}</b> / 7.0</p>
+          </ion-label>
+          <ion-icon [name]="isExpanded(insc.id) ? 'chevron-down-outline' : 'chevron-forward-outline'"
+            slot="end"></ion-icon>
+        </ion-item>
+
+        <!-- Detalle (Lista de Notas) -->
+        <div class="grade-details" *ngIf="isExpanded(insc.id)">
+          <ion-list lines="full">
+            <ion-item *ngFor="let nota of insc.notas">
+              <ion-label>
+                <h3>Nota</h3>
+                <p>{{ (nota.fecha || '') | date:'dd/MM/yyyy' }}</p>
+              </ion-label>
+              <ion-badge color="primary" slot="end">{{ nota.valor || nota.nota }}</ion-badge>
+            </ion-item>
+            <ion-item *ngIf="!insc.notas || insc.notas.length === 0">
+              <ion-label class="ion-text-center">
+                <p>Sin notas registradas</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
     </ion-list>
   </ion-card>
 
-  <ion-footer class="tabs">
-    <ion-toolbar>
-      <ion-tabs>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button routerLink="/home"><ion-icon name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/notas" selected="true"><ion-icon name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/asistencia"><ion-icon name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/chat"><ion-icon name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer class="tabs">
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button routerLink="/home"><ion-icon
+            name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/notas" selected="true"><ion-icon
+            name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/asistencia"><ion-icon
+            name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/chat"><ion-icon
+            name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

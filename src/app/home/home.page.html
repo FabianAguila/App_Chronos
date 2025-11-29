@@ -1,57 +1,58 @@
 <ion-header class="home-header ion-no-border">
   <ion-toolbar class="header-toolbar">
-    <ion-title class="brand">
-      <ion-icon name="school-outline"></ion-icon>
-      <span>Chronos</span>
+    <ion-title class="brand-title">
+      <div class="brand-wrapper">
+        <span class="brand-text">Chronos</span>
+        <img src="assets/icon/icon-Chronos.png" alt="Chronos" class="brand-logo">
+      </div>
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" aria-label="Notificaciones">
-        <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="solid" color="danger" (click)="cerrarSesion()" title="Cerrar sesión" style="margin-left:8px;">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        Cerrar sesión
-      </ion-button>
+
+
     </ion-buttons>
   </ion-toolbar>
-  <div class="header-hero">
-    <div class="hero-left">
-      <div class="hello">Hola,</div>
-      <h1 class="student-name">{{ alumno?.nombreCompleto || 'Estudiante' }}</h1>
-      <p class="sub">Aprender es tu superpoder. ¡Vamos por más!</p>
-    </div>
-    <ion-avatar class="hero-avatar">
-      <img src="assets/images/avatar-default.png" alt="Avatar" />
-    </ion-avatar>
-  </div>
-  <ion-grid class="quick-stats">
-    <ion-row>
-      <ion-col size="4">
-        <div class="stat">
-          <ion-icon name="ribbon-outline"></ion-icon>
-          <div class="kpi">6.3</div>
-          <div class="lbl">Promedio</div>
-        </div>
-      </ion-col>
-      <ion-col size="4">
-        <div class="stat">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <div class="kpi">90%</div>
-          <div class="lbl">Asistencia</div>
-        </div>
-      </ion-col>
-      <ion-col size="4">
-        <div class="stat">
-          <ion-icon name="book-outline"></ion-icon>
-          <div class="kpi">5</div>
-          <div class="lbl">Ramos</div>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="home-content">
+<ion-content class="home-content">
+  <!-- Hero Section (scrollable) -->
+  <div class="header-hero-section">
+    <div class="header-hero">
+      <div class="hero-left">
+        <div class="hello">Hola,</div>
+        <h1 class="student-name">{{ alumno?.nombreCompleto || 'Estudiante' }}</h1>
+        <p class="sub">Aprender es tu superpoder. ¡Vamos por más!</p>
+      </div>
+      <ion-avatar class="hero-avatar" [routerLink]="['/profile']" style="cursor: pointer;">
+        <img src="assets/images/avatar-default.png" alt="Avatar" />
+      </ion-avatar>
+    </div>
+    <ion-grid class="quick-stats">
+      <ion-row>
+        <ion-col size="4">
+          <div class="stat">
+            <ion-icon name="ribbon-outline"></ion-icon>
+            <div class="kpi">{{ promedioGeneral }}</div>
+            <div class="lbl">Promedio General</div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="stat">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div class="kpi">90%</div>
+            <div class="lbl">Asistencia Total</div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="stat">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="kpi">{{ cantidadRamos }}</div>
+            <div class="lbl">Ramos</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
   <!-- Asistencia -->
   <ion-card class="card attendance">
     <ion-card-header>
@@ -78,41 +79,23 @@
       <ion-card-subtitle>Seguimiento académico</ion-card-subtitle>
     </ion-card-header>
     <ion-list lines="none" class="grade-list">
-      <ion-item>
-        <ion-icon name="calculator-outline" slot="start" class="subj"></ion-icon>
+      <ion-item *ngFor="let nota of ultimasNotas">
+        <ion-icon name="document-text-outline" slot="start" class="subj"></ion-icon>
         <ion-label>
-          <h3>Matemáticas</h3>
-          <p>28 may</p>
+          <h3>{{ nota.asignatura }}</h3>
+          <p>{{ nota.fecha | date:'dd MMM' }}</p>
         </ion-label>
-        <ion-chip color="primary"><ion-label>6.5</ion-label></ion-chip>
-        <ion-badge color="success">Aprobado</ion-badge>
+        <!-- Chip con color dinámico de fondo (transparente) -->
+        <ion-chip [style.--background]="nota.color">
+          <ion-label><strong>{{ nota.valor }}</strong></ion-label>
+        </ion-chip>
+        <ion-badge [color]="nota.estado.color">{{ nota.estado.texto }}</ion-badge>
       </ion-item>
-      <ion-item>
-        <ion-icon name="book-outline" slot="start" class="subj"></ion-icon>
-        <ion-label>
-          <h3>Lenguaje</h3>
-          <p>27 may</p>
+
+      <ion-item *ngIf="ultimasNotas.length === 0">
+        <ion-label class="ion-text-center">
+          <p>No hay notas registradas aún.</p>
         </ion-label>
-        <ion-chip color="primary"><ion-label>7.0</ion-label></ion-chip>
-        <ion-badge color="success">Excelente</ion-badge>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="flask-outline" slot="start" class="subj"></ion-icon>
-        <ion-label>
-          <h3>Ciencias</h3>
-          <p>26 may</p>
-        </ion-label>
-        <ion-chip color="primary"><ion-label>5.8</ion-label></ion-chip>
-        <ion-badge color="success">Aprobado</ion-badge>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="library-outline" slot="start" class="subj"></ion-icon>
-        <ion-label>
-          <h3>Historia</h3>
-          <p>25 may</p>
-        </ion-label>
-        <ion-chip color="warning"><ion-label>4.2</ion-label></ion-chip>
-        <ion-badge color="warning">Requiere mejora</ion-badge>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -123,7 +106,7 @@
       <ion-card-title>Próximas actividades</ion-card-title>
       <ion-card-subtitle>Organiza tu semana</ion-card-subtitle>
     </ion-card-header>
-    <ion-list lines="full">
+    <ion-list lines="none">
       <ion-item>
         <ion-icon name="calendar-number-outline" slot="start" color="primary"></ion-icon>
         <ion-label>
@@ -155,20 +138,33 @@
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="/chat" color="primary">
-      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      <ion-icon name="chatbubble"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-footer class="tabs">
-    <ion-toolbar>
-      <ion-tabs>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button routerLink="/home" selected="true"><ion-icon name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/notas"><ion-icon name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/asistencia"><ion-icon name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/chat"><ion-icon name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer class="tabs">
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button routerLink="/home" selected="true">
+          <ion-icon ios="home-outline" md="home-sharp"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/notas">
+          <ion-icon ios="book-outline" md="book-sharp"></ion-icon>
+          <ion-label>Notas</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/asistencia">
+          <ion-icon ios="calendar-outline" md="calendar-sharp"></ion-icon>
+          <ion-label>Asistencia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/chat">
+          <ion-icon ios="chatbubbles-outline" md="chatbubbles-sharp"></ion-icon>
+          <ion-label>Chat</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

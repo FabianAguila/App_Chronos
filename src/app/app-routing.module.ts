@@ -45,14 +45,6 @@ const routes: Routes = [
     canLoad: [ProfesorGuard],
   },
 
-  // pantalla exclusiva para profesores: lista de conversaciones con alumnos
-  {
-    path: 'teacher-chat',
-    loadChildren: () => import('./teacher-chat/teacher-chat.module').then(m => m.TeacherChatPageModule),
-    canActivate: [ProfesorGuard],
-    canLoad: [ProfesorGuard],
-  },
-
   // nuevas páginas (deben ir antes del comodín)
   {
     path: 'chat',
@@ -72,6 +64,12 @@ const routes: Routes = [
     path: 'asistencia',
     loadChildren: () => import('./asistencia/asistencia.module').then(m => m.AsistenciaPageModule),
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
+    canActivate: [AutenticacionGuard],
+    canLoad: [AutenticacionGuard],
+  },
 
   // raíz & 404
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -83,4 +81,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

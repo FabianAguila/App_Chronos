@@ -1,0 +1,103 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Perfil</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-content">
+    <div class="profile-container">
+
+        <!-- Avatar Section -->
+        <div class="avatar-section">
+            <ion-avatar class="profile-avatar">
+                <img src="assets/images/avatar-default.png" alt="Avatar" />
+            </ion-avatar>
+            <h2 class="profile-name">{{ alumno?.nombreCompleto || 'Usuario' }}</h2>
+            <p class="profile-subtitle">Estudiante</p>
+        </div>
+
+        <!-- Profile Form -->
+        <form [formGroup]="profileForm" class="profile-form">
+
+            <!-- Personal Info Card -->
+            <div class="info-card">
+                <h3 class="card-title">Información Personal</h3>
+
+                <div class="form-field">
+                    <label class="field-label">Nombre Completo</label>
+                    <ion-item lines="none" class="custom-input">
+                        <ion-input formControlName="nombreCompleto" type="text"
+                            placeholder="Ingresa tu nombre completo">
+                        </ion-input>
+                    </ion-item>
+                    <div class="error-message"
+                        *ngIf="profileForm.get('nombreCompleto')?.invalid && profileForm.get('nombreCompleto')?.touched">
+                        <ion-icon name="alert-circle-outline"></ion-icon>
+                        <span>El nombre debe tener al menos 3 caracteres</span>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="field-label">Email</label>
+                    <ion-item lines="none" class="custom-input">
+                        <ion-input formControlName="email" type="email" placeholder="correo@ejemplo.com">
+                        </ion-input>
+                    </ion-item>
+                    <div class="error-message"
+                        *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                        <ion-icon name="alert-circle-outline"></ion-icon>
+                        <span>Ingresa un email válido</span>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="field-label">Comuna</label>
+                    <ion-item lines="none" class="custom-input">
+                        <ion-input formControlName="comuna" type="text" placeholder="Tu comuna">
+                        </ion-input>
+                    </ion-item>
+                </div>
+            </div>
+
+            <!-- Read-only Info Card -->
+            <div class="info-card">
+                <h3 class="card-title">Información de Cuenta</h3>
+
+                <div class="form-field">
+                    <label class="field-label">RUT</label>
+                    <ion-item lines="none" class="custom-input readonly">
+                        <ion-input formControlName="rut" type="text" readonly>
+                        </ion-input>
+                    </ion-item>
+                </div>
+
+                <div class="form-field">
+                    <label class="field-label">ID de Usuario</label>
+                    <ion-item lines="none" class="custom-input readonly">
+                        <ion-input formControlName="id" type="text" readonly>
+                        </ion-input>
+                    </ion-item>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <ion-button expand="block" class="save-btn" (click)="saveProfile()"
+                [disabled]="profileForm.invalid || loading">
+                <ion-icon name="save-outline" slot="start"></ion-icon>
+                Guardar Cambios
+            </ion-button>
+        </form>
+
+        <!-- Logout Button -->
+        <ion-button expand="block" fill="outline" color="danger" class="logout-btn" (click)="cerrarSesion()">
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            Cerrar Sesión
+        </ion-button>
+
+    </div>
+</ion-content>

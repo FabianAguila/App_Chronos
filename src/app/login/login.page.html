@@ -1,57 +1,65 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar></ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="icon-container">
+          <img src="assets/icon/icon-Chronos.png" alt="Chronos Logo"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h1>Chronos</h1>
+        <p>Plataforma Académica</p>
+      </div>
 
-<ion-content class="login-bg" fullscreen>
-  <div class="login-wrapper">
-    <div class="login-card">
-      <img src="assets/images/logo-mark.svg" alt="" class="brand-mark" />
+      <!-- Form -->
+      <form [formGroup]="formLogin" (ngSubmit)="ingresar()" class="auth-form">
 
-      <h1 class="brand-title">DocenteDigital</h1>
-      <p class="subtitle">¡Bienvenido de nuevo!</p>
+        <div class="input-group">
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="correo" type="email" placeholder="Correo institucional" autocomplete="email"
+              inputmode="email">
+            </ion-input>
+          </ion-item>
 
-      <form [formGroup]="formLogin" (ngSubmit)="ingresar()" novalidate>
-        <ion-item lines="full" class="field">
-          <ion-input
-            formControlName="correo"
-            type="email"
-            label=" "
-            placeholder="ejemplo@docentedigital.com"
-            autocomplete="email"
-            inputmode="email"
-          ></ion-input>
-        </ion-item>
-
-        <ion-item lines="full" class="field">
-          <ion-input
-            formControlName="password"
-            type="password"
-            label=" "
-            placeholder="********"
-            autocomplete="current-password"
-          ></ion-input>
-        </ion-item>
-
-        <!-- Error global (como en la imagen, en rojo debajo de los inputs) -->
-        <div class="error-text" *ngIf="loginError">
-          Usuario o contraseña incorrectos.
+          <ion-item lines="none" class="custom-input">
+            <ion-input formControlName="password" type="password" placeholder="Contraseña"
+              autocomplete="current-password">
+            </ion-input>
+          </ion-item>
         </div>
 
-        <ion-button
-          type="submit"
-          expand="block"
-          class="btn-ingresar"
-          [disabled]="formLogin.invalid || loading"
-        >
-          Ingresar
-        </ion-button>
-
-        <div class="links">
-          <a [routerLink]="['/forgotpass']">¿Olvidaste tu contraseña?</a>
-          <a (click)="redirectToSignup()">Crear cuenta alumno</a>
-          <a [routerLink]="['/signup-profesor']">Crear cuenta profesor</a>
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="formLogin.invalid && formLogin.touched">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>Credenciales inválidas</span>
         </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <ion-button type="submit" expand="block" class="submit-btn" [disabled]="formLogin.invalid || loading">
+            <span *ngIf="!loading">Ingresar</span>
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          </ion-button>
+
+          <div class="links">
+            <a [routerLink]="['/forgotpass']" class="forgot-link">¿Olvidaste tu contraseña?</a>
+          </div>
+        </div>
+
       </form>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>¿No tienes cuenta?</p>
+        <div class="register-buttons">
+          <ion-button fill="outline" size="small" (click)="redirectToSignup()">
+            Alumno
+          </ion-button>
+          <ion-button fill="outline" size="small" [routerLink]="['/signup-profesor']">
+            Docente
+          </ion-button>
+        </div>
+      </div>
     </div>
   </div>
 </ion-content>

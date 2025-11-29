@@ -1,0 +1,30 @@
+// --- PALETA DE COLORES (Opción 1) ---
+
+// Marca
+$color-primary: #2563EB; // Azul Real (Botones, Header, Links)
+$color-primary-hover: #1D4ED8; // Azul más oscuro para interacciones
+$color-secondary: #DBEAFE; // Azul muy claro (Fondos suaves)
+
+// Fondos
+$bg-app: #F3F4F6; // Gris muy suave (Fondo general de la app)
+$bg-auth: #2563EB; // El mismo azul primario para fondo de Login
+$surface: #FFFFFF; // Blanco puro (Tarjetas, Inputs, Nav)
+
+// Texto
+$text-main: #1F2937; // Gris oscuro (Títulos, Texto importante)
+$text-secondary: #6B7280; // Gris medio (Subtítulos, placeholders)
+$text-inverse: #FFFFFF; // Texto sobre fondos azules
+
+// Estados (Semánticos)
+$state-success: #22C55E; // Verde (Presente, Aprobado)
+$state-warning: #F59E0B; // Ámbar (Justificado)
+$state-danger: #EF4444; // Rojo (Ausente, Prioridad Alta, Notificaciones)
+
+// --- ESPACIADO Y BORDES ---
+$radius-sm: 8px; // Botones pequeños, Inputs
+$radius-md: 16px; // Tarjetas estándar
+$radius-lg: 24px; // Contenedores grandes o modales
+$shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+// --- FUENTES ---
+$font-family-base: "Inter", system-ui, -apple-system, sans-serif;

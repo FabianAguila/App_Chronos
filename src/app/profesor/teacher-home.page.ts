@@ -23,11 +23,7 @@ export class TeacherHomePage implements OnInit {
   constructor(private api: ApiService, private router: Router) {}
 
   abrirChat() {
-    // Navegación dependiente del rol: si es profesor, abrir su pantalla de chat exclusiva
-    Preferences.get({ key: 'rol' }).then(({ value }) => {
-      if (value === 'profesor') this.router.navigate(['/teacher-chat']);
-      else this.router.navigate(['/chat']);
-    });
+  this.router.navigate(['/chat']); // ajusta la ruta si tu página de chat usa otra
   }
 
   async ngOnInit() {

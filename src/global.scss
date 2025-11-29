@@ -1,26 +1,361 @@
 /*
  * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * Unified "Académico Moderno" Styles
  */
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+// Import Variables (SCSS variables defined in _colors.scss are needed here)
+@import "./theme/colors";
+
+// ==========================================
+// 2. ESTILOS GLOBALES (Reseteo visual)
+// ==========================================
+
+body {
+    font-family: $font-family-base;
+    background-color: $bg-app;
+    margin: 0;
+    color: $text-main;
+}
+
+// 1. TARJETAS (La base de tu diseño)
+ion-card,
+.card {
+    background-color: $surface;
+    border-radius: $radius-md;
+    box-shadow: $shadow-card;
+    padding: 1rem; // Ajusta según necesites
+    margin-bottom: 1rem;
+
+    // Títulos dentro de tarjetas
+    h3,
+    .card-title,
+    ion-card-title {
+        color: $text-main;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    // Subtítulos o etiquetas
+    p,
+    .card-subtitle,
+    ion-card-subtitle {
+        color: $text-secondary;
+        font-size: 0.9rem;
+    }
+}
+
+// 2. INPUTS (Formularios modernos)
+.form-input,
+.custom-input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #F9FAFB; // Un gris casi blanco
+    border: 1px solid #D1D5DB;
+    border-radius: $radius-sm;
+    color: $text-main;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box; // Importante para que el padding no rompa el ancho
+    margin-bottom: 12px;
+
+    &::placeholder {
+        color: $text-secondary;
+    }
+
+    &:focus-within,
+    &.item-has-focus {
+        border-color: $color-primary;
+        background-color: $surface;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.15); // Anillo de enfoque suave
+    }
+
+    ion-input {
+        --padding-start: 0;
+        --color: #{$text-main};
+        --placeholder-color: #{$text-secondary};
+    }
+}
+
+// 3. BOTONES
+ion-button,
+.btn {
+    --border-radius: #{$radius-sm};
+    font-weight: 600;
+
+    // Botón Principal (Azul Sólido)
+    &.btn-primary,
+    &[color="primary"] {
+        --background: #{$color-primary};
+        --color: #{$text-inverse};
+        --background-hover: #{$color-primary-hover};
+    }
+
+    // Botón Secundario/Outline (Borde Azul)
+    &.btn-outline,
+    &[fill="outline"] {
+        --background: transparent;
+        --border-color: #{$color-primary};
+        --border-width: 2px;
+        --color: #{$color-primary};
+    }
+
+    // Botón de Alerta (Rojo - Ej. Prioridad Alta)
+    &.btn-danger,
+    &[color="danger"] {
+        --background: #{$state-danger};
+        --color: #{$text-inverse};
+    }
+}
+
+// ==========================================
+// 3. VISTAS DE AUTENTICACIÓN (Login, Registro)
+// ==========================================
+
+.auth-screen,
+.auth-content {
+    --background: #{$bg-auth}; // Fondo Azul Completo
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    // Logo o Icono superior
+    .auth-logo,
+    .icon-container {
+        width: 80px;
+        height: 80px;
+        background: $surface;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon,
+        img {
+            font-size: 40px;
+            color: $color-primary;
+        }
+    }
+
+    // Tarjeta central blanca
+    .auth-card {
+        background-color: $surface;
+        width: 100%;
+        max-width: 400px;
+        border-radius: $radius-lg; // Más redondeado para verse amigable
+        padding: 2.5rem 2rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2); // Sombra más dramática
+
+        h1 {
+            text-align: center;
+            color: $text-main;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle,
+        p {
+            text-align: center;
+            color: $text-secondary;
+            margin-bottom: 2rem;
+        }
+
+        // Toggle de vehículo (Corrección específica)
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 1rem;
+
+            label {
+                color: $text-main;
+                font-weight: 500;
+            }
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: $text-secondary;
+
+            a {
+                color: $color-primary;
+                font-weight: 600;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// ==========================================
+// 4. VISTAS INTERNAS (App Principal)
+// ==========================================
+
+// HEADER (Barra Azul Superior)
+.app-header,
+ion-header {
+    --background: #{$color-primary};
+    padding: 20px 20px 40px 20px; // Padding extra abajo para efecto visual
+    color: $text-inverse;
+
+    ion-toolbar {
+        --background: transparent;
+        --color: #{$text-inverse};
+    }
+
+    h2,
+    ion-title {
+        margin: 0;
+        font-size: 1.25rem;
+        color: $text-inverse;
+    }
+
+    // Stats rápidas (Promedio, Asistencia en header)
+    .header-stats,
+    .quick-stats {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+
+        .stat-box,
+        .stat {
+            background: rgba(255, 255, 255, 0.15); // Blanco translúcido
+            backdrop-filter: blur(5px);
+            border-radius: $radius-sm;
+            padding: 10px;
+            flex: 1;
+            text-align: center;
+            color: white;
+
+            .stat-number,
+            .kpi {
+                font-size: 1.5rem;
+                font-weight: bold;
+                display: block;
+                color: white;
+            }
+
+            .stat-label,
+            .lbl {
+                font-size: 0.75rem;
+                opacity: 0.9;
+                color: white;
+            }
+
+            ion-icon {
+                color: white;
+            }
+        }
+    }
+}
+
+// CUERPO DE LA APP
+.app-body,
+ion-content {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-bottom: 80px; // Espacio para que el nav de abajo no tape contenido
+
+    // Barra de progreso (Asistencia)
+    .progress-bar-bg,
+    ion-progress-bar {
+        background-color: #E5E7EB;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 10px;
+        --background: #E5E7EB;
+        --progress-background: #{$color-primary};
+
+        .progress-fill {
+            background-color: $color-primary;
+            height: 100%;
+        }
+    }
+}
+
+// BARRA DE NAVEGACIÓN INFERIOR
+.bottom-nav,
+ion-footer {
+    --background: #{$surface};
+    border-top: 1px solid #E5E7EB;
+
+    ion-tab-bar {
+        --background: #{$surface};
+        --border: none;
+    }
+
+    ion-tab-button {
+        --color: #{$text-secondary}; // Color por defecto (Gris)
+        --color-selected: #{$color-primary};
+
+        // Estado Activo
+        &[aria-selected="true"] {
+            color: $color-primary; // Se pone azul
+            font-weight: 600;
+
+            svg,
+            i,
+            ion-icon {
+                fill: $color-primary; // Si usas SVGs
+                color: $color-primary;
+            }
+        }
+    }
+}
+
+// CHAT ESPECÍFICO
+.chat-list {
+    .chat-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #F3F4F6;
+
+        .info {
+            margin-left: 10px;
+            flex: 1;
+
+            h4,
+            .name {
+                margin: 0;
+                color: $text-main;
+                font-weight: 700;
+            }
+
+            p,
+            .preview {
+                margin: 0;
+                color: $text-secondary;
+                font-size: 0.85rem;
+            }
+        }
+
+        .badge {
+            background-color: $state-danger; // Rojo para notificaciones
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+        }
+    }
+}

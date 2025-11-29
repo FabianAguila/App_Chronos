@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProfesorDto, CursoCardDto, TeacherDashboardDto } from '../profesor/teacher.dtos';
-import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private apiUrl = environment.apiUrl || 'https://apichronos-production.up.railway.app';
+  private apiUrl = 'https://localhost:7020/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   registrarProfesor(profesor: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/Profesor`, profesor);
@@ -48,11 +47,6 @@ export class ApiService {
 
   iniciarSesion(datosLogin: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/Alumno/login`, datosLogin);
-  }
-
-  // Login para profesores (endpoint separado en el backend)
-  iniciarSesionProfesor(datosLogin: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Profesor/login`, datosLogin);
   }
 
   getAlumnoPorId(id: number): Observable<any> {
@@ -118,11 +112,6 @@ export class ApiService {
     return this.http.get<ProfesorDto>(`${this.apiUrl}/Profesor/${id}`);
   }
 
-  // Obtener todos los profesores registrados
-  getProfesores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/Profesor`);
-  }
-
   getCursosProfesor(id: number): Observable<CursoCardDto[]> {
     return this.http.get<CursoCardDto[]>(`${this.apiUrl}/Profesor/${id}/cursos`);
   }
@@ -131,33 +120,19 @@ export class ApiService {
     return this.http.get<TeacherDashboardDto>(`${this.apiUrl}/Profesor/${id}/dashboard`);
   }
 
-  // Chat: obtener conversación entre profesor y alumno
-  getConversacion(profesorId: number, alumnoId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/Chat/conversacion/${profesorId}/${alumnoId}`);
+  getAlumnosProfesor(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Profesor/${id}/alumnos`);
   }
 
-  // Enviar mensaje (body: { profesorId, alumnoId, remitente, texto })
-  enviarMensaje(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Chat`, payload);
-  }
-
-  // Obtener alumnos asociados a un profesor
-  getAlumnosProfesor(profesorId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/Profesor/${profesorId}/alumnos`);
-  }
-
-  // Obtener todos los alumnos registrados (fallback si existe)
   getAlumnos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/Alumno`);
   }
 
-  // Agregar una nota para un alumno (payload: { profesorId, alumnoId, valor, tipo?, descripcion?, fecha? })
-  agregarNotaAlumno(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Notas`, payload);
+  getAlumno(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/Alumno/${id}`);
   }
 
-  // Marcar asistencia para un alumno (payload: { profesorId, alumnoId, fecha, presente })
-  marcarAsistenciaAlumno(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Asistencia`, payload);
+  updateAlumno(id: number, alumno: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Alumno/${id}`, alumno);
   }
 }

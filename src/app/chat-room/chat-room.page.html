@@ -1,40 +1,20 @@
 <ion-header class="chat-header ion-no-border">
   <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
-      <ion-button fill="clear" (click)="volver()" aria-label="Volver">
-        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
-        <span class="back-text">Atrás</span>
-      </ion-button>
+      <ion-back-button defaultHref="/chat"></ion-back-button>
     </ion-buttons>
     <ion-title class="brand">
       <ion-icon name="person-circle-outline"></ion-icon>
-      <span>{{ conversationPartnerName }}</span>
+      <span>{{ profesorNombre }}</span>
     </ion-title>
-
-    <!-- Acciones del profesor: agregar nota y asistencia -->
-    <ion-buttons slot="end" *ngIf="isProfesor">
-      <ion-button fill="clear" (click)="presentAgregarNota()" title="Agregar nota">
-        <ion-icon name="star-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" (click)="presentMarcarAsistencia()" title="Marcar asistencia">
-        <ion-icon name="checkmark-done-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="chat-room-content">
-  <div class="mensajes" *ngIf="mensajes && mensajes.length > 0">
+  <div class="mensajes">
     <div *ngFor="let m of mensajes" [ngClass]="['burbuja', m.de]">
       <div class="texto">{{ m.texto }}</div>
       <div class="hora">{{ m.hora }}</div>
-    </div>
-  </div>
-
-  <div class="no-mensajes" *ngIf="!mensajes || mensajes.length === 0">
-    <div class="no-mensajes-inner">
-      <ion-icon name="chatbubbles-outline"></ion-icon>
-      <p>No hay mensajes ahora.</p>
     </div>
   </div>
 </ion-content>

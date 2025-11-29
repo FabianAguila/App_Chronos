@@ -9,8 +9,8 @@ import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot( { mode: 'md'} ), AppRoutingModule, HttpClientModule, QRCodeModule],
+  imports: [BrowserModule, IonicModule.forRoot({ mode: 'md' }), AppRoutingModule, HttpClientModule, QRCodeModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

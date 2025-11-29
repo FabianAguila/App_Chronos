@@ -10,9 +10,24 @@
   </ion-toolbar>
   <ion-grid class="quick-stats">
     <ion-row>
-      <ion-col size="4"><div class="stat"><div class="kpi">{{ presentes }}</div><div class="lbl">Presentes</div></div></ion-col>
-      <ion-col size="4"><div class="stat"><div class="kpi">{{ ausentes }}</div><div class="lbl">Ausentes</div></div></ion-col>
-      <ion-col size="4"><div class="stat"><div class="kpi">{{ porcentaje | number:'1.0-0' }}%</div><div class="lbl">Del mes</div></div></ion-col>
+      <ion-col size="4">
+        <div class="stat">
+          <div class="kpi">{{ presentes }}</div>
+          <div class="lbl">Presentes</div>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div class="stat">
+          <div class="kpi">{{ ausentes }}</div>
+          <div class="lbl">Ausentes</div>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div class="stat">
+          <div class="kpi">{{ porcentaje | number:'1.0-0' }}%</div>
+          <div class="lbl">Del mes</div>
+        </div>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-header>
@@ -25,7 +40,8 @@
         <ng-container *ngFor="let fila of semanas">
           <div *ngFor="let d of fila" class="cell" [class.out]="d.fecha.getMonth() !== mes">
             <div class="day">{{ d.fecha.getDate() }}</div>
-            <div class="dot" [class.p]="d.estado==='P'" [class.a]="d.estado==='A'" [class.j]="d.estado==='J'" [class.s]="d.estado==='S'"></div>
+            <div class="dot" [class.p]="d.estado==='P'" [class.a]="d.estado==='A'" [class.j]="d.estado==='J'"
+              [class.s]="d.estado==='S'"></div>
           </div>
         </ng-container>
       </div>
@@ -43,16 +59,21 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-footer class="tabs">
-    <ion-toolbar>
-      <ion-tabs>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button routerLink="/home"><ion-icon name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/notas"><ion-icon name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/asistencia" selected="true"><ion-icon name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
-          <ion-tab-button routerLink="/chat"><ion-icon name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer class="tabs">
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button routerLink="/home"><ion-icon
+            name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/notas"><ion-icon
+            name="book-outline"></ion-icon><ion-label>Notas</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/asistencia" selected="true"><ion-icon
+            name="calendar-outline"></ion-icon><ion-label>Asistencia</ion-label></ion-tab-button>
+        <ion-tab-button routerLink="/chat"><ion-icon
+            name="chatbubble-ellipses-outline"></ion-icon><ion-label>Chat</ion-label></ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

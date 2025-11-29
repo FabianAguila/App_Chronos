@@ -1,3 +1,127 @@
-ion-content { background: #f7f9fc; }
-ion-title { color: #2563eb; }
-ion-button { margin-top: 18px; }
+// Variables for this page
+$card-radius: 20px;
+$input-height: 50px;
+
+.auth-content {
+    --background: var(--chronos-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-wrapper {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--chronos-card-bg);
+    border-radius: $card-radius;
+    padding: 30px 25px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: center;
+    color: var(--chronos-text);
+}
+
+.auth-header {
+    margin-bottom: 30px;
+
+    .icon-container {
+        width: 100px;
+        height: 100px;
+        background: var(--chronos-bg-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        overflow: hidden;
+
+        ion-icon {
+            font-size: 50px;
+            color: var(--chronos-primary);
+        }
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 5px;
+        letter-spacing: 0.5px;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 0;
+        opacity: 0.8;
+        color: var(--chronos-text-secondary);
+    }
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.custom-input {
+    --background: #fff;
+    --padding-start: 15px;
+    --inner-padding-end: 15px;
+    --min-height: #{$input-height};
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+    ion-input {
+        --padding-top: 15px;
+        --padding-bottom: 15px;
+        font-size: 14px;
+        --placeholder-color: #999;
+        --color: var(--chronos-text);
+    }
+}
+
+.submit-btn {
+    --background: var(--chronos-primary);
+    --background-activated: var(--chronos-primary-shade);
+    --color: #ffffff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    font-weight: 600;
+    margin-bottom: 15px;
+    height: $input-height;
+    font-size: 16px;
+}
+
+.auth-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    p {
+        font-size: 13px;
+        margin: 0;
+        opacity: 0.8;
+    }
+
+    .login-link {
+        --color: var(--chronos-secondary);
+        font-weight: 600;
+        font-size: 13px;
+        margin: 0;
+        height: auto;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}

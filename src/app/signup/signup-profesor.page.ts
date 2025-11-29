@@ -9,7 +9,7 @@ import { NavController, ToastController } from '@ionic/angular';
   styleUrls: ['./signup-profesor.page.scss']
 })
 export class SignupProfesorPage {
-  formRegis: FormGroup;
+  formRegisProfesor: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -17,16 +17,27 @@ export class SignupProfesorPage {
     private navCtrl: NavController,
     private toastCtrl: ToastController
   ) {
-    this.formRegis = this.fb.group({
+    this.formRegisProfesor = this.fb.group({
       nombreCompleto: ['', Validators.required],
       correoElectronico: ['', [Validators.required, Validators.email]],
       contrasena: ['', Validators.required],
-      especialidad: ['', Validators.required]
+      usaVehiculo: [false],
+      matricula: [''],
+      descripcionVehiculo: ['']
     });
   }
 
+  toggleVehiculo() {
+    if (!this.formRegisProfesor.get('usaVehiculo')?.value) {
+      this.formRegisProfesor.patchValue({
+        matricula: '',
+        descripcionVehiculo: ''
+      });
+    }
+  }
+
   async registrarProfesor() {
-    if (this.formRegis.invalid) {
+    if (this.formRegisProfesor.invalid) {
       const toast = await this.toastCtrl.create({
         message: 'Por favor completa todos los campos obligatorios',
         duration: 2000,
@@ -36,11 +47,13 @@ export class SignupProfesorPage {
       return;
     }
 
-    const formValue = this.formRegis.value;
+    const formValue = this.formRegisProfesor.value;
     const profesor = {
       Nom_prof: formValue.nombreCompleto,
       CorreoElectronico: formValue.correoElectronico?.trim(),
-      Contrasena: formValue.contrasena?.trim()
+      Contrasena: formValue.contrasena?.trim(),
+      Matricula: formValue.matricula || '',
+      DescripcionVehiculo: formValue.descripcionVehiculo || ''
     };
 
     try {
